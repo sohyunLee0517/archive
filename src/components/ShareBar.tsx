@@ -87,25 +87,12 @@ export default function ShareBar() {
       return;
     }
     window.Kakao.Share.sendDefault({
-      objectType: "feed",
-      content: {
-        title: document.title,
-        description: "이소현의 작업 아카이브",
-        imageUrl: `${window.location.origin}/og-image.png`,
-        link: {
-          mobileWebUrl: window.location.href,
-          webUrl: window.location.href,
-        },
+      objectType: "text",
+      text: `${document.title}\n이소현의 작업 아카이브`,
+      link: {
+        mobileWebUrl: window.location.href,
+        webUrl: window.location.href,
       },
-      buttons: [
-        {
-          title: "사이트 열기",
-          link: {
-            mobileWebUrl: window.location.href,
-            webUrl: window.location.href,
-          },
-        },
-      ],
     });
   }, []);
 
