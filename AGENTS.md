@@ -17,9 +17,46 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 프로젝트 카드 등에 외부 링크가 있을 경우, **인쇄물에서도 URL을 식별 가능한 형태로 노출**한다 (작은 글씨로 텍스트 표시 등).
 - 새 컴포넌트 추가 시 `print` 미디어 쿼리에서 어떻게 보일지 항상 확인한다 (Chrome DevTools → Rendering → Emulate CSS media type: print).
 
+## 레이아웃 / 스크롤 동작 (필수)
+
+이 사이트는 **고정 viewport 레이아웃**이다. 페이지 전체가 스크롤되지 않고, **메인 컨텐츠 영역만 내부에서 스크롤**된다.
+
+- `body`는 `h-screen overflow-hidden flex flex-col` 구조 — 헤더 / 컨텐츠 row / 액션바가 세로로 배치되며 셋 다 항상 시야 안에 있어야 한다.
+- 헤더와 하단 액션바는 `shrink-0`, 메인 컨텐츠는 `overflow-y-auto`.
+- 사이드바도 자체 스크롤(`overflow-y-auto`) — 좌측 트리가 길어져도 메인과 독립적으로 스크롤.
+- 인쇄 시에는 `print:overflow-visible / print:h-auto`로 viewport 제약을 해제해 모든 컨텐츠가 인쇄되게 한다.
+
+## 스크롤바 디자인 (필수)
+
+깜빡이는 커서와 시각적으로 통일된 **각진 솔리드 블록 스크롤바**를 사용한다 (둥근 모서리 금지).
+
+- 너비/높이: 10px
+- thumb: `var(--color-primary)` (#1a1c1c) — 깜빡이는 커서와 동일 색
+- thumb hover: `#000000`
+- track: `var(--color-outline-variant)`
+- `border-radius: 0` 강제, 좌측 1px 테두리로 레트로 청크 느낌
+- Firefox: `scrollbar-width: thin`, `scrollbar-color: primary outline-variant`
+- 인쇄 시 `display: none`으로 숨김
+
+## 헤더 커서 표시 규칙
+
+상단 헤더의 `ISO ARCHIVE : 이소현` 옆 깜빡이는 커서는 **메인 페이지(`/`)에서만 노출**한다. 상세 페이지에서는 breadcrumb 옆에 별도 커서가 있으므로 헤더 커서를 숨겨 시각적 중복을 피한다.
+
+## 사이트 구조 (필수)
+
+이 사이트는 **메인 / 상세 두 화면**으로 구성된다. 좌측 사이드바·상단 헤더·하단 액션바는 두 화면이 공유하며, **메인 콘텐츠 영역만 화면별로 달라진다**.
+
+- **메인** (`/`) — 컴팩트 카드 리스트. 카드는 [ CONCEPT ] + [ STACK ]만 보여주며 우측에 화살표 아이콘.
+- **상세** (`/projects/[slug]/`) — 한 프로젝트의 모든 정보. Hero(메타) → Tech Stack → Concept/Goal → Implementation → Challenges/Solutions → Learnings → Prev/Next 네비.
+- 사이드바의 프로젝트 항목과 메인의 카드 모두 클릭 시 상세 페이지로 라우팅한다.
+- 사이드바는 `usePathname()`으로 현재 활성 프로젝트를 자동 하이라이트한다.
+- 상단 터미널 path는 페이지에 따라 달라진다 (`$ ls /sys/archive/` ↔ `$ cd /sys/archive/projects/{slug}`).
+- 정적 export 환경이므로 `app/projects/[slug]/page.tsx`는 `generateStaticParams()`로 모든 슬러그를 미리 빌드한다.
+
 ## 콘텐츠 규칙
 
-- 프로젝트 섹션은 **각 프로젝트 카드 클릭 시 해당 GitHub 레포로 이동**해야 한다.
+- 프로젝트 섹션은 **각 프로젝트 카드 클릭 시 해당 프로젝트의 상세 페이지로 이동**해야 한다.
+- 상세 페이지의 Repository 영역에서 실제 GitHub 레포로 외부 링크를 제공한다.
 - 각 프로젝트 카드는 다음 7개 항목을 모두 포함한다 (이 사이트는 "기록"이 목적이라 만들 당시의 맥락 전체를 보여줘야 한다):
   1. **컨셉** — 어떤 아이디어/맥락에서 출발한 프로젝트인가
   2. **목표** — 만들 당시 무엇을 이루고자 했나

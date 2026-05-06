@@ -1,44 +1,163 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary: #1a1c1c;
+  --color-secondary: #5f5e5e;
+  --color-surface: #f9f9f9;
+  --color-background: #f2f2f2;
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #47464b;
+  --color-outline: #77767c;
+  --color-outline-variant: #c8c5cb;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-low: #f3f3f3;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+
+  --font-terminal: "Space Grotesk", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-body-kr: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui,
+    sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--color-background);
+  color: var(--color-on-surface);
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", sans-serif;
+  font-family: var(--font-body-kr);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+/* Retro terminal scrollbar — sharp block, matches the blinking cursor */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: var(--color-outline-variant);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-outline-variant);
+  border-left: 1px solid #b0aeb5;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 0;
+  border-left: 1px solid #b0aeb5;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-outline-variant);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-outline-variant);
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.tree-line::before {
+  content: "├─";
+  margin-right: 8px;
+  color: var(--color-outline);
+  font-family: var(--font-terminal);
+}
+
+.tree-line-last::before {
+  content: "└─";
+  margin-right: 8px;
+  color: var(--color-outline);
+  font-family: var(--font-terminal);
+}
+
+.tree-nested::before {
+  content: "│  ├─";
+  margin-right: 8px;
+  color: var(--color-outline);
+  font-family: var(--font-terminal);
+  white-space: pre;
+}
+
+.tree-nested-last::before {
+  content: "│  └─";
+  margin-right: 8px;
+  color: var(--color-outline);
+  font-family: var(--font-terminal);
+  white-space: pre;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+  user-select: none;
 }
 
 @media print {
   @page {
     size: A4;
-    margin: 16mm;
+    margin: 14mm;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   html,
   body {
     background: #ffffff !important;
     color: #000000 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Disable scroll containment for print so all content prints */
+  .scroll-area {
+    overflow: visible !important;
+    height: auto !important;
   }
 
   .no-print {
     display: none !important;
+  }
+
+  .project-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #000 !important;
+    background: #ffffff !important;
+    margin-bottom: 1.25rem !important;
   }
 
   a {
@@ -46,8 +165,20 @@ body {
     text-decoration: none !important;
   }
 
-  .break-inside-avoid {
-    break-inside: avoid;
-    page-break-inside: avoid;
+  .print-show-url::after {
+    content: " (" attr(href) ")";
+    font-size: 0.7rem;
+    color: #444;
+    word-break: break-all;
+  }
+
+  .stack-pill {
+    background: transparent !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+
+  main {
+    padding-top: 0 !important;
   }
 }

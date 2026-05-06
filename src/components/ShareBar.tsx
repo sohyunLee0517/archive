@@ -68,22 +68,19 @@ export default function ShareBar() {
 
     try {
       await navigator.clipboard.writeText(url);
-      setToast({ message: "링크가 복사되었어요", tone: "ok" });
+      setToast({ message: "LINK COPIED", tone: "ok" });
     } catch {
-      setToast({ message: "복사에 실패했어요", tone: "warn" });
+      setToast({ message: "COPY FAILED", tone: "warn" });
     }
   }, []);
 
   const handleKakaoShare = useCallback(() => {
     if (!KAKAO_JS_KEY) {
-      setToast({
-        message: "카카오 키가 아직 등록되지 않았어요",
-        tone: "warn",
-      });
+      setToast({ message: "KAKAO KEY NOT SET", tone: "warn" });
       return;
     }
     if (!window.Kakao?.Share) {
-      setToast({ message: "카카오 SDK 로딩 중", tone: "warn" });
+      setToast({ message: "KAKAO SDK LOADING...", tone: "warn" });
       return;
     }
     window.Kakao.Share.sendDefault({
@@ -98,21 +95,39 @@ export default function ShareBar() {
 
   return (
     <>
-      <div className="no-print sticky top-4 z-20 mx-auto flex w-full max-w-3xl flex-wrap items-center justify-end gap-2 px-4">
-        <ActionButton onClick={handlePrint} label="PDF 다운로드" icon="pdf" />
-        <ActionButton onClick={handleKakaoShare} label="카카오톡" icon="kakao" />
-        <ActionButton onClick={handleShareLink} label="링크 공유" icon="link" />
-        <ActionButton onClick={handlePrint} label="프린트" icon="print" />
+      <div className="no-print w-full shrink-0 border-t border-primary/20 bg-primary text-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
+        <div className="mx-auto flex max-w-[1120px] items-stretch justify-center px-6 md:justify-end">
+          <ActionBtn
+            icon="picture_as_pdf"
+            label="SAVE_TO_PDF"
+            onClick={handlePrint}
+            divider
+          />
+          <ActionBtn
+            icon="chat"
+            label="KAKAO_SHARE"
+            onClick={handleKakaoShare}
+            divider
+          />
+          <ActionBtn
+            icon="share"
+            label="COPY_LINK"
+            onClick={handleShareLink}
+            divider
+          />
+          <ActionBtn icon="print" label="PRINT_DOC" onClick={handlePrint} />
+        </div>
       </div>
 
       {toast ? (
         <div
           role="status"
-          className={`no-print fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full px-4 py-2 text-sm shadow-lg ${
+          className={`no-print fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 border px-4 py-2 text-xs font-medium tracking-wider shadow-lg ${
             toast.tone === "ok"
-              ? "bg-zinc-900 text-white"
-              : "bg-amber-500 text-black"
+              ? "border-primary bg-white text-primary"
+              : "border-amber-500 bg-amber-50 text-amber-900"
           }`}
+          style={{ fontFamily: "var(--font-terminal)" }}
         >
           {toast.message}
         </div>
@@ -121,59 +136,28 @@ export default function ShareBar() {
   );
 }
 
-function ActionButton({
-  onClick,
-  label,
+function ActionBtn({
   icon,
+  label,
+  onClick,
+  divider,
 }: {
-  onClick: () => void;
+  icon: string;
   label: string;
-  icon: "pdf" | "kakao" | "link" | "print";
+  onClick: () => void;
+  divider?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white/80 px-3.5 py-2 text-sm font-medium text-zinc-800 shadow-sm backdrop-blur transition hover:border-zinc-300 hover:bg-white active:scale-[0.98] dark:border-zinc-800 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:bg-zinc-900"
+      style={{ fontFamily: "var(--font-terminal)" }}
+      className={`flex items-center gap-2 px-3 py-2.5 text-[11px] tracking-[0.05em] transition-colors hover:bg-white hover:text-primary sm:px-6 ${
+        divider ? "border-r border-white/20" : ""
+      }`}
     >
-      <Icon name={icon} />
-      <span>{label}</span>
+      <span className="material-symbols-outlined text-[16px]">{icon}</span>
+      <span className="hidden sm:inline">{label}</span>
     </button>
-  );
-}
-
-function Icon({ name }: { name: "pdf" | "kakao" | "link" | "print" }) {
-  const common = "h-4 w-4";
-  if (name === "pdf") {
-    return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <path d="M14 2v6h6" />
-        <path d="M12 18v-6" />
-        <path d="m9 15 3 3 3-3" />
-      </svg>
-    );
-  }
-  if (name === "kakao") {
-    return (
-      <svg className={common} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 3C6.48 3 2 6.58 2 11c0 2.86 1.93 5.36 4.83 6.78l-1.2 4.4c-.1.36.3.65.61.45L11.4 19.6c.2.01.4.02.6.02 5.52 0 10-3.58 10-8s-4.48-8-10-8z" />
-      </svg>
-    );
-  }
-  if (name === "link") {
-    return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1 1" />
-        <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1-1" />
-      </svg>
-    );
-  }
-  return (
-    <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 9V2h12v7" />
-      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-      <rect x="6" y="14" width="12" height="8" rx="1" />
-    </svg>
   );
 }
