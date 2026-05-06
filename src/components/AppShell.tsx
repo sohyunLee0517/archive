@@ -24,7 +24,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 overflow-hidden print:block print:overflow-visible">
         <SideNav activeSlug={activeSlug} isHome={isHome} />
 
-        <main className="scroll-area flex-1 overflow-y-auto print:overflow-visible">
+        <main className="scroll-area flex-1 overflow-y-scroll print:overflow-visible">
           <div className="mx-auto max-w-[840px] px-6 py-12 lg:py-16">
             {children}
           </div>
