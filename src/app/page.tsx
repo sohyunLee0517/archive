@@ -15,7 +15,6 @@ type Project = {
   challenge: string;
   solution: string;
   takeaways: string[];
-  tags: string[];
 };
 
 const PROJECTS: Project[] = [
@@ -51,7 +50,6 @@ const PROJECTS: Project[] = [
       "역할 기반 라우팅 설계 + Riverpod StateNotifier 운용 패턴",
       "위젯 테스트로 회귀 방지 흐름 자리잡기",
     ],
-    tags: ["Flutter", "Firebase", "Riverpod", "Melos"],
   },
   {
     name: "야구 통계 (baseballStat)",
@@ -82,7 +80,6 @@ const PROJECTS: Project[] = [
       "Prisma 스키마 설계가 비즈니스 흐름에 직접 영향을 준다는 감각",
       "외부 메일 서비스(Resend) 연동과 환경변수 관리",
     ],
-    tags: ["Next.js", "Prisma", "Resend", "Auth"],
   },
   {
     name: "우리집 캘린더 (woorijib-calendar)",
@@ -112,7 +109,6 @@ const PROJECTS: Project[] = [
       "TWA로 웹 앱을 Play Store에 올리는 전체 흐름 경험",
       "매니페스트 형식 차이로 인한 호환성 처리 패턴",
     ],
-    tags: ["Next.js", "PWA", "TWA", "Bubblewrap"],
   },
   {
     name: "각도기 앱 (protractor_app)",
@@ -141,7 +137,6 @@ const PROJECTS: Project[] = [
       "null safety가 실제 크래시 방지에 어떻게 기여하는지 체감",
       "출시 라이프사이클(서명·AAB·심사·거부·재제출) 전 과정 경험",
     ],
-    tags: ["Flutter", "Play Store", "CustomPainter"],
   },
   {
     name: "우정의 온도 (woojung-event)",
@@ -171,7 +166,6 @@ const PROJECTS: Project[] = [
       "다인 환경에서의 오디오 피드백 처리 노하우",
       "게임 페이즈 상태머신 설계 경험",
     ],
-    tags: ["WebRTC", "Next.js", "실시간"],
   },
   {
     name: "야구 스코어보드 (baseball-scoreboard)",
@@ -195,7 +189,6 @@ const PROJECTS: Project[] = [
       "정식/임시 데이터를 같은 UI에서 자연스럽게 다루는 패턴",
       "현장에서 실제로 들고 쓰는 환경(작은 화면, 잦은 입력)에서의 반응형 설계",
     ],
-    tags: ["TypeScript", "React"],
   },
   {
     name: "네온 피젯 스피너 (spinner)",
@@ -218,7 +211,6 @@ const PROJECTS: Project[] = [
       "표준 easing의 한계와 직접 함수를 만들 때의 자유도",
       "시각적 디테일(네온 글로우)이 인터랙션 만족도에 주는 영향",
     ],
-    tags: ["JavaScript", "Animation"],
   },
   {
     name: "이 사이트 (archive)",
@@ -249,7 +241,6 @@ const PROJECTS: Project[] = [
       "카카오 SDK의 검증 단계를 단계별로 분리해 디버깅하는 법",
       "Next.js 16 + React 19 새 버전 사용 경험",
     ],
-    tags: ["Next.js 16", "GitHub Pages", "Tailwind"],
   },
 ];
 
@@ -383,7 +374,7 @@ function ProjectItem({ project }: { project: Project }) {
               {project.tech.map((t) => (
                 <li
                   key={t}
-                  className="rounded-md border border-zinc-200 px-2 py-0.5 text-xs text-zinc-700 dark:border-zinc-700 dark:text-zinc-300 print:border-zinc-300 print:text-zinc-800"
+                  className="rounded-md bg-zinc-900 px-2.5 py-1 text-xs font-medium text-white shadow-sm dark:bg-zinc-100 dark:text-zinc-900 print:border print:border-zinc-400 print:bg-white print:text-zinc-900 print:shadow-none"
                 >
                   {t}
                 </li>
@@ -407,7 +398,7 @@ function ProjectItem({ project }: { project: Project }) {
             <p className="leading-6">{project.solution}</p>
           </Field>
 
-          <Field label="얻은 것">
+          <Field label="배운점">
             <ul className="list-disc space-y-0.5 pl-5">
               {project.takeaways.map((item) => (
                 <li key={item}>{item}</li>
@@ -415,17 +406,6 @@ function ProjectItem({ project }: { project: Project }) {
             </ul>
           </Field>
         </dl>
-
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-zinc-200 px-2 py-0.5 text-xs text-zinc-600 dark:border-zinc-800 dark:text-zinc-400 print:border-zinc-300 print:text-zinc-700"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
       </a>
     </li>
   );

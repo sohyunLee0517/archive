@@ -51,12 +51,11 @@
      - GitHub 경로 (작은 글씨, 인쇄 시에도 보여야 함)
      - **컨셉** — 어떤 아이디어에서 출발했는지
      - **목표** — 만들 당시 무엇을 이루고자 했는지
-     - **사용 기술** — 핵심 스택 (Pill 형태)
+     - **사용 기술** — 핵심 스택 (강조된 Pill, 카드 안에서 시각적으로 가장 두드러짐)
      - **한 일** — 실제 수행한 작업 (불릿)
      - **고민** — 부딪힌 문제
      - **해결** — 어떻게 풀었는지
-     - **얻은 것** — 이 프로젝트로 체득한 것 (불릿)
-     - 태그 (Pill 형태, 2~4개)
+     - **배운점** — 이 프로젝트로 체득한 것 (불릿)
    - 정보가 많으므로 각 항목은 좌측 라벨 + 우측 본문의 **definition list 패턴**으로 정렬 (`<dl><dt><dd>`).
 
 4. **Contact**
@@ -148,7 +147,7 @@
 
 ## 9. 디자인 AI에 입력할 때 권장 프롬프트
 
-> "This is a personal portfolio site called **iso archive**, owned by a Korean developer Sohyun Lee. It's a calm, minimalist **document-style archive** that records the full context of each project at the time it was made. The page lists 8 GitHub projects as long, content-rich cards. Each card includes: project title, year, one-line summary, GitHub path, and 7 labeled fields — **Concept (컨셉), Goal (목표), Tech Stack (사용 기술), What I did (한 일), Challenge (고민), Solution (해결), Takeaways (얻은 것)** — followed by a tag row. Use a definition-list layout (label on left, content on right) so all 7 fields read like a structured journal entry. The whole card must be clickable and link to its GitHub repo. The page must support **clean print/PDF output** as a primary feature — when printed, it should look like a polished resume/portfolio document, with each card not splitting across pages. There are 4 sticky action buttons (PDF download, KakaoTalk share, link share, print). Tone: tidy, document-like, generous whitespace, no playful gradients or trendy SaaS hero patterns. Korean is the primary language; keep typography readable in Korean. Support both light and dark modes for screen; print is always light. Inspiration: traditional paper résumé, well-structured engineering journal, Brian Lovin's portfolio."
+> "This is a personal portfolio site called **iso archive**, owned by a Korean developer Sohyun Lee. It's a calm, minimalist **document-style archive** that records the full context of each project at the time it was made. The page lists 8 GitHub projects as long, content-rich cards. Each card includes: project title, year, one-line summary, GitHub path, and 7 labeled fields — **Concept (컨셉), Goal (목표), Tech Stack (사용 기술), What I did (한 일), Challenge (고민), Solution (해결), Lessons Learned (배운점)**. Use a definition-list layout (label on left, content on right) so all 7 fields read like a structured journal entry. The **Tech Stack** field should be visually emphasized — its pills are the most prominent visual element inside a card (solid dark fill with white text in light mode, inverted in dark). No separate tag row at the bottom — tech stack is shown only in that one field. The whole card must be clickable and link to its GitHub repo. The page must support **clean print/PDF output** as a primary feature — when printed, it should look like a polished resume/portfolio document, with each card not splitting across pages, and tech pills rendering as outlined shapes (no solid fill ink). There are 4 sticky action buttons (PDF download, KakaoTalk share, link share, print). Tone: tidy, document-like, generous whitespace, no playful gradients or trendy SaaS hero patterns. Korean is the primary language; keep typography readable in Korean. Support both light and dark modes for screen; print is always light. Inspiration: traditional paper résumé, well-structured engineering journal, Brian Lovin's portfolio."
 
 ---
 
