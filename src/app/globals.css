@@ -39,15 +39,52 @@ body {
 
 body.inline-pdf-mode #inline-print-root {
   display: block;
-  position: static;
-  width: auto;
+  position: fixed;
+  left: -200vw;
+  top: 0;
+  width: min(210mm, 1000px);
   background: #ffffff;
-  z-index: auto;
+  z-index: -1;
   pointer-events: none;
 }
 
-body.inline-pdf-mode #app-root {
-  display: none !important;
+body.inline-pdf-mode #inline-print-document-root {
+  max-width: 182mm;
+  margin: 0 auto;
+}
+
+body.inline-pdf-mode #inline-print-document-root > section,
+body.inline-pdf-mode #inline-print-document-root > header,
+body.inline-pdf-mode #inline-print-document-root > div {
+  margin-top: 0 !important;
+}
+
+body.inline-pdf-mode .pdf-page-break {
+  break-before: page;
+  page-break-before: always;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+body.inline-pdf-mode .pdf-page-block {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+body.inline-pdf-mode #inline-print-document-root p,
+body.inline-pdf-mode #inline-print-document-root li,
+body.inline-pdf-mode #inline-print-document-root dd,
+body.inline-pdf-mode #inline-print-document-root blockquote {
+  font-size: 10px !important;
+  line-height: 1.6 !important;
+}
+
+body.inline-pdf-mode #inline-print-document-root h1 {
+  font-size: 18px !important;
+}
+
+body.inline-pdf-mode #inline-print-document-root h2 {
+  font-size: 14px !important;
 }
 
 /* Retro terminal scrollbar — sharp block, matches the blinking cursor */

@@ -6,7 +6,7 @@ export default function PrintDocument({ rootId }: { rootId?: string }) {
   return (
     <div
       id={rootId}
-      className="mx-auto max-w-4xl space-y-12 text-[14px] print:space-y-8 print:text-[11px]"
+      className="mx-auto max-w-4xl space-y-0 text-[12px] print:text-[10px]"
     >
       <header className="break-inside-avoid border-b border-primary pb-5">
         <div
@@ -23,15 +23,12 @@ export default function PrintDocument({ rootId }: { rootId?: string }) {
         </h1>
       </header>
 
-      <section className="break-inside-avoid">
+      <section className="pdf-page-block break-inside-avoid">
         <SectionHeader index="00" title="About.md" path="cd /sys/archive/about" />
         <AboutContent />
       </section>
 
-      <section
-        className="break-inside-avoid print:pt-1"
-        style={{ breakBefore: "page", pageBreakBefore: "always" }}
-      >
+      <section className="pdf-page-break pdf-page-block break-inside-avoid">
         <SectionHeader
           index="01"
           title="Archive/"
@@ -63,8 +60,7 @@ export default function PrintDocument({ rootId }: { rootId?: string }) {
       {PROJECTS.map((project, idx) => (
         <section
           key={project.repo}
-          className="break-inside-avoid border border-outline-variant bg-white p-8 print:pt-1"
-          style={{ breakBefore: "page", pageBreakBefore: "always" }}
+          className="pdf-page-break pdf-page-block break-inside-avoid border border-outline-variant bg-white p-8"
         >
           <div
             className="mb-6 flex items-center gap-2 text-primary"
@@ -75,7 +71,7 @@ export default function PrintDocument({ rootId }: { rootId?: string }) {
           </div>
 
           <h2
-            className="mb-8 text-2xl font-semibold tracking-tight text-primary print:text-xl"
+            className="mb-8 text-xl font-semibold tracking-tight text-primary print:text-lg"
             style={{ fontFamily: "var(--font-terminal)" }}
           >
             {String(idx + 1).padStart(2, "0")}. {project.name}
@@ -125,10 +121,7 @@ export default function PrintDocument({ rootId }: { rootId?: string }) {
         </section>
       ))}
 
-      <section
-        className="break-inside-avoid print:pt-1"
-        style={{ breakBefore: "page", pageBreakBefore: "always" }}
-      >
+      <section className="pdf-page-break pdf-page-block break-inside-avoid">
         <SectionHeader
           index="02"
           title="Contact.sh"
@@ -174,7 +167,7 @@ function SectionHeader({
         <span>{path}</span>
       </div>
       <h2
-        className="border-b border-outline pb-2 text-lg font-medium text-primary print:text-base"
+        className="border-b border-outline pb-2 text-base font-medium text-primary print:text-sm"
         style={{ fontFamily: "var(--font-terminal)" }}
       >
         {index}. {title}

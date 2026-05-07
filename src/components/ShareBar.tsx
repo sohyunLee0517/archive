@@ -58,6 +58,9 @@ export default function ShareBar() {
 
     document.body.classList.add("inline-pdf-mode");
     try {
+      if ("fonts" in document) {
+        await (document as Document & { fonts: FontFaceSet }).fonts.ready;
+      }
       await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()));
       await new Promise<void>((resolve) => window.setTimeout(() => resolve(), 60));
 
@@ -73,15 +76,25 @@ export default function ShareBar() {
 
       await html2pdf()
         .set({
-          margin: 10,
+          margin: [14, 14, 14, 14],
           filename: fileName,
-          pagebreak: { mode: ["css", "legacy"] },
-          image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true },
+          pagebreak: {
+            mode: ["css", "legacy"],
+            before: [".pdf-page-break"],
+            avoid: [".pdf-page-block"],
+          },
+          image: { type: "png", quality: 1 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            windowWidth: exportRoot.scrollWidth,
+          },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         })
         .from(exportRoot)
         .save();
+      setToast({ message: "PDF SAVED", tone: "ok" });
     } catch {
       setToast({ message: "PDF EXPORT FAILED", tone: "warn" });
     } finally {
