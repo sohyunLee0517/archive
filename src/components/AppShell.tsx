@@ -11,7 +11,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const path = pathname.replace(/\/$/, "") || "/";
   const detailMatch = path.match(/^\/projects\/(.+)$/);
   const activeSlug = detailMatch ? detailMatch[1] : null;
-  const isHome = path === "/";
+  const pathDepth = path === "/" ? 0 : path.split("/").filter(Boolean).length;
+  const isHome = pathDepth < 2;
+  const isArchive = path === "/" || path === "/archive";
 
   const terminalPath = activeSlug
     ? `cd /sys/archive/projects/${activeSlug}`
@@ -22,13 +24,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <TopAppBar terminalPath={terminalPath} showCursor={isHome} />
 
       <div className="flex flex-1 overflow-hidden print:block print:overflow-visible">
-        <SideNav activeSlug={activeSlug} isHome={isHome} />
+        <SideNav activeSlug={activeSlug} isArchive={isArchive} />
 
-        <main className="scroll-area flex-1 overflow-y-scroll print:overflow-visible">
+        <main className="scroll-area flex-1 overflow-y-scroll pb-24 print:overflow-visible">
           <div className="mx-auto max-w-[840px] px-6 py-12 lg:py-16">
             {children}
           </div>
-          <Footer />
         </main>
       </div>
 
@@ -68,18 +69,20 @@ function TopAppBar({
 
 function SideNav({
   activeSlug,
-  isHome,
+  isArchive,
 }: {
   activeSlug: string | null;
-  isHome: boolean;
+  isArchive: boolean;
 }) {
   return (
     <nav
-      className="no-print hidden w-72 shrink-0 flex-col overflow-y-auto border-r border-outline-variant p-6 lg:flex"
+      className="no-print hidden w-72 shrink-0 flex-col overflow-y-auto border-r border-outline-variant p-6 pb-24 lg:flex"
       style={{ fontFamily: "var(--font-terminal)" }}
     >
       <div className="mb-8">
-        <div className="mb-2 text-sm text-primary opacity-50"># system_info</div>
+        <div className="mb-2 text-sm text-primary opacity-50">
+          # system_info
+        </div>
         <p className="text-xs font-medium tracking-[0.05em] text-primary">
           Digital Archeologist
         </p>
@@ -94,9 +97,16 @@ function SideNav({
         </div>
 
         <Link
-          href="/"
+          href="/about"
+          className="tree-line flex items-center px-2 py-1 text-xs tracking-[0.05em] text-on-surface-variant transition-colors hover:bg-primary hover:text-white"
+        >
+          About.md
+        </Link>
+
+        <Link
+          href="/archive"
           className={`tree-line flex items-center px-2 py-1 text-xs tracking-[0.05em] transition-colors ${
-            isHome
+            isArchive
               ? "bg-primary font-bold text-white"
               : "text-primary hover:bg-primary hover:text-white"
           }`}
@@ -126,49 +136,15 @@ function SideNav({
         </div>
 
         <Link
-          href="/#about"
-          className="tree-line flex items-center px-2 py-1 text-xs tracking-[0.05em] text-on-surface-variant transition-colors hover:bg-primary hover:text-white"
-        >
-          About.md
-        </Link>
-        <Link
-          href="/#contact"
-          className="tree-line flex items-center px-2 py-1 text-xs tracking-[0.05em] text-on-surface-variant transition-colors hover:bg-primary hover:text-white"
+          href="/contact"
+          className="tree-line-last flex items-center px-2 py-1 text-xs tracking-[0.05em] text-on-surface-variant transition-colors hover:bg-primary hover:text-white"
         >
           Contact.sh
         </Link>
-        <a
-          href={`https://github.com/${GITHUB_USER}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="tree-line-last flex items-center px-2 py-1 text-xs tracking-[0.05em] text-on-surface-variant transition-colors hover:bg-primary hover:text-white"
-        >
-          Links/
-        </a>
       </div>
 
       <div className="mt-auto border-t border-dashed border-outline-variant pt-8">
-        <div className="text-[10px] text-outline">
-          Status: Available
-          <br />
-          Built for permanence.
-        </div>
-      </div>
-    </nav>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="no-print mt-16 w-full border-t border-primary bg-white px-6 py-12">
-      <div
-        className="mx-auto flex max-w-[1120px] flex-col items-center justify-between text-primary md:flex-row"
-        style={{ fontFamily: "var(--font-terminal)" }}
-      >
-        <span className="text-[11px] uppercase tracking-[0.15em] opacity-60">
-          © {new Date().getFullYear()} ISO_ARCHIVE. STATUS: BUILT_FOR_PERMANENCE.
-        </span>
-        <div className="mt-4 flex gap-6 text-[10px] font-bold uppercase tracking-[0.15em] md:mt-0">
+        <div className="flex gap-4 text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
           <a
             href={`https://github.com/${GITHUB_USER}`}
             target="_blank"
@@ -185,6 +161,6 @@ function Footer() {
           </a>
         </div>
       </div>
-    </footer>
+    </nav>
   );
 }

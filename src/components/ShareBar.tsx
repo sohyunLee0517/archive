@@ -95,7 +95,7 @@ export default function ShareBar() {
 
   return (
     <>
-      <div className="no-print w-full shrink-0 border-t border-primary/20 bg-primary text-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
+      <div className="no-print fixed inset-x-0 bottom-0 z-50 border-t border-primary/20 bg-primary pb-[env(safe-area-inset-bottom)] text-white shadow-[0_-4px_10px_rgba(0,0,0,0.1)]">
         <div className="mx-auto flex max-w-[1120px] items-stretch justify-center px-6 md:justify-end">
           <ActionBtn
             icon="picture_as_pdf"
@@ -122,7 +122,7 @@ export default function ShareBar() {
       {toast ? (
         <div
           role="status"
-          className={`no-print fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 border px-4 py-2 text-xs font-medium tracking-wider shadow-lg ${
+          className={`no-print fixed bottom-24 left-1/2 z-[60] -translate-x-1/2 border px-4 py-2 text-xs font-medium tracking-wider shadow-lg ${
             toast.tone === "ok"
               ? "border-primary bg-white text-primary"
               : "border-amber-500 bg-amber-50 text-amber-900"

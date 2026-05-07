@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
     period: "2026",
     summary: "선수 통계와 인증 시스템을 갖춘 야구 기록 서비스",
     concept:
-      "동아리·사회인 야구팀의 선수 통계와 경기 기록을 한 곳에서 가볍게 관리할 수 있는 웹 서비스.",
+      "어린이·청소년 야구팀의 선수 통계와 경기 기록을 한 곳에서 가볍게 관리할 수 있는 웹 서비스.",
     goal: "회원가입·인증·복구 흐름을 직접 끝까지 구현해, 실제 운영 가능한 수준의 인증 시스템을 만들어본다.",
     tech: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Resend"],
     work: [
@@ -181,13 +181,20 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
-    name: "이 사이트 (archive)",
+    name: "개발 저장소 (archive)",
     repo: "archive",
     period: "2026",
     summary: "지금 보고 있는 포트폴리오 — Next.js + GitHub Pages",
     concept: "화려하지 않게, 만든 것들을 그대로 모아두는 책장 같은 포트폴리오.",
     goal: "PDF로 출력해서 종이 이력서로도 쓸 수 있을 만큼 깔끔한 문서형 사이트.",
-    tech: ["Next.js 16", "React 19", "Tailwind 4", "GitHub Actions", "Kakao SDK"],
+    tech: [
+      "Next.js 16",
+      "React 19",
+      "Tailwind 4",
+      "GitHub Actions",
+      "Kakao SDK",
+      "Google Stitch",
+    ],
     work: [
       "정적 export + GitHub Actions 자동 배포 파이프라인",
       "PDF 다운로드 / 카카오톡 공유 / 링크 공유 / 프린트 4종 액션",
