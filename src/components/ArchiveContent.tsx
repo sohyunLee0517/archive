@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { PROJECTS, type Project } from "@/lib/projects";
+import {
+  ARCHIVE_BIO_DESCRIPTION,
+  ARCHIVE_BIO_TITLE,
+  ARCHIVE_LIST_TITLE,
+} from "@/lib/siteContent";
 
 export default function ArchiveContent() {
   return (
@@ -23,13 +28,10 @@ function Bio() {
         className="mb-4 text-lg font-medium text-primary"
         style={{ fontFamily: "var(--font-terminal)" }}
       >
-        만든 것들을 모아둔 작은 저장소
+        {ARCHIVE_BIO_TITLE}
       </p>
       <p className="leading-relaxed text-on-surface-variant">
-        Next.js, Flutter, Firebase, Prisma 등을 활용해 기록을 위한 도구를
-        만듭니다. 흩어진 파편들을 정렬해 영구적인 데이터로 남기는 작업을 좋아하고,
-        사용자가 실제로 닿는 자리에서 매끄럽게 동작하는 결과물을 만드는 데
-        집중합니다.
+        {ARCHIVE_BIO_DESCRIPTION}
       </p>
     </section>
   );
@@ -43,7 +45,7 @@ function Projects() {
           className="text-xs font-bold uppercase tracking-[0.2em] text-primary"
           style={{ fontFamily: "var(--font-terminal)" }}
         >
-          Active Archives ({PROJECTS.length})
+          {ARCHIVE_LIST_TITLE} ({PROJECTS.length})
         </h2>
         <div className="h-px flex-1 bg-outline-variant" />
       </div>

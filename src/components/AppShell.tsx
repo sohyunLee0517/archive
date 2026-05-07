@@ -14,26 +14,37 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathDepth = path === "/" ? 0 : path.split("/").filter(Boolean).length;
   const isHome = pathDepth < 2;
   const isArchive = path === "/" || path === "/archive";
+  const isPrint = path === "/print";
 
-  const terminalPath = activeSlug
-    ? `cd /sys/archive/projects/${activeSlug}`
-    : "ls /sys/archive/";
+  const terminalPath = isPrint
+    ? "cat /sys/archive/print-all.md"
+    : activeSlug
+      ? `cd /sys/archive/projects/${activeSlug}`
+      : "ls /sys/archive/";
 
   return (
     <>
-      <TopAppBar terminalPath={terminalPath} showCursor={isHome} />
+      <TopAppBar
+        terminalPath={terminalPath}
+        showCursor={isHome}
+        printVisible={isPrint}
+      />
 
       <div className="flex flex-1 overflow-hidden print:block print:overflow-visible">
-        <SideNav activeSlug={activeSlug} isArchive={isArchive} />
+        {isPrint ? null : <SideNav activeSlug={activeSlug} isArchive={isArchive} />}
 
-        <main className="scroll-area flex-1 overflow-y-scroll pb-24 print:overflow-visible">
+        <main
+          className={`scroll-area flex-1 overflow-y-scroll print:overflow-visible ${
+            isPrint ? "" : "pb-24"
+          }`}
+        >
           <div className="mx-auto max-w-[840px] px-6 py-12 lg:py-16">
             {children}
           </div>
         </main>
       </div>
 
-      <ShareBar />
+      {isPrint ? null : <ShareBar />}
     </>
   );
 }
@@ -41,13 +52,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 function TopAppBar({
   terminalPath,
   showCursor,
+  printVisible,
 }: {
   terminalPath: string;
   showCursor: boolean;
+  printVisible?: boolean;
 }) {
   return (
     <header
-      className="no-print w-full shrink-0 border-b border-primary bg-surface px-6 py-5"
+      className={`${printVisible ? "" : "no-print"} w-full shrink-0 border-b border-primary bg-surface px-6 py-5`}
       style={{ fontFamily: "var(--font-terminal)" }}
     >
       <div className="mx-auto flex max-w-[1120px] flex-col justify-between md:flex-row md:items-center">

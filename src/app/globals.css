@@ -142,6 +142,11 @@ body {
     overflow: visible !important;
   }
 
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   /* Disable scroll containment for print so all content prints */
   .scroll-area {
     overflow: visible !important;
@@ -173,7 +178,7 @@ body {
   }
 
   .stack-pill {
-    background: transparent !important;
+    background: #f0f0f0 !important;
     color: #000 !important;
     border: 1px solid #000 !important;
   }

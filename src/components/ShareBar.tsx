@@ -50,7 +50,10 @@ export default function ShareBar() {
   }, []);
 
   const handlePrint = useCallback(() => {
-    window.print();
+    const popup = window.open("/print?auto=1", "_blank", "noopener,noreferrer");
+    if (!popup) {
+      setToast({ message: "POPUP BLOCKED", tone: "warn" });
+    }
   }, []);
 
   const handleShareLink = useCallback(async () => {
