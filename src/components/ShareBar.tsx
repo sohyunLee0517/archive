@@ -49,11 +49,56 @@ export default function ShareBar() {
     document.head.appendChild(script);
   }, []);
 
-  const handlePrint = useCallback(() => {
-    const popup = window.open("/print?auto=1", "_blank", "noopener,noreferrer");
-    if (!popup) {
-      setToast({ message: "POPUP BLOCKED", tone: "warn" });
+  const handlePdfDownload = useCallback(async () => {
+    const exportRoot = document.getElementById("inline-print-document-root");
+    if (!exportRoot) {
+      setToast({ message: "PRINT ROOT NOT FOUND", tone: "warn" });
+      return;
     }
+
+    document.body.classList.add("inline-pdf-mode");
+    try {
+      await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()));
+      await new Promise<void>((resolve) => window.setTimeout(() => resolve(), 60));
+
+      const html2pdfModule = await import("html2pdf.js");
+      const html2pdf =
+        (html2pdfModule.default ?? html2pdfModule) as unknown as () => {
+          set: (options: Record<string, unknown>) => {
+            from: (element: HTMLElement) => { save: () => Promise<void> };
+          };
+        };
+
+      const fileName = "iso_archive.pdf";
+
+      await html2pdf()
+        .set({
+          margin: 10,
+          filename: fileName,
+          pagebreak: { mode: ["css", "legacy"] },
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        })
+        .from(exportRoot)
+        .save();
+    } catch {
+      setToast({ message: "PDF EXPORT FAILED", tone: "warn" });
+    } finally {
+      document.body.classList.remove("inline-pdf-mode");
+    }
+  }, []);
+
+  const handlePrint = useCallback(() => {
+    document.body.classList.add("inline-print-mode");
+    const cleanup = () => {
+      document.body.classList.remove("inline-print-mode");
+    };
+    window.addEventListener("afterprint", cleanup, { once: true });
+    window.setTimeout(cleanup, 5000);
+    window.requestAnimationFrame(() => {
+      window.print();
+    });
   }, []);
 
   const handleShareLink = useCallback(async () => {
@@ -103,7 +148,7 @@ export default function ShareBar() {
           <ActionBtn
             icon="picture_as_pdf"
             label="SAVE_TO_PDF"
-            onClick={handlePrint}
+            onClick={handlePdfDownload}
             divider
           />
           <ActionBtn

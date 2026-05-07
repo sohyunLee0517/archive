@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppShell from "@/components/AppShell";
+import PrintDocument from "@/components/PrintDocument";
 
 export const metadata: Metadata = {
   title: "ISO ARCHIVE | 이소현",
@@ -40,7 +41,12 @@ export default function RootLayout({
         />
       </head>
       <body className="flex h-screen flex-col overflow-hidden bg-background print:h-auto print:overflow-visible">
-        <AppShell>{children}</AppShell>
+        <div id="app-root" className="flex h-screen flex-col overflow-hidden">
+          <AppShell>{children}</AppShell>
+        </div>
+        <div id="inline-print-root" aria-hidden="true">
+          <PrintDocument rootId="inline-print-document-root" />
+        </div>
       </body>
     </html>
   );

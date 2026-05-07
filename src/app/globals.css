@@ -33,6 +33,23 @@ body {
   overflow: hidden;
 }
 
+#inline-print-root {
+  display: none;
+}
+
+body.inline-pdf-mode #inline-print-root {
+  display: block;
+  position: static;
+  width: auto;
+  background: #ffffff;
+  z-index: auto;
+  pointer-events: none;
+}
+
+body.inline-pdf-mode #app-root {
+  display: none !important;
+}
+
 /* Retro terminal scrollbar — sharp block, matches the blinking cursor */
 ::-webkit-scrollbar {
   width: 10px;
@@ -151,6 +168,21 @@ body {
   .scroll-area {
     overflow: visible !important;
     height: auto !important;
+  }
+
+  #inline-print-root {
+    display: none !important;
+  }
+
+  body.inline-print-mode #app-root {
+    display: none !important;
+  }
+
+  body.inline-print-mode #inline-print-root {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    opacity: 1 !important;
   }
 
   .no-print {
